@@ -35,13 +35,13 @@ class SyncConfig:
 
     def getFilesContent(self):
         if os.path.isfile(self.path_v1):
-            v1 = open(self.path_v1, 'r')
+            v1 = open(self.path_v1, 'r', encoding='ISO-8859-1')
             conteudo_v1 = v1.read()
             v1.close()
         else:
             conteudo_v1 = 'Config v1 não encontrado.'
         if os.path.isfile(self.path_v2):
-            v2 = open(self.path_v2, 'r')
+            v2 = open(self.path_v2, 'r', encoding='ISO-8859-1')
             conteudo_v2 = v2.read()
             v2.close()
         else:
@@ -49,8 +49,8 @@ class SyncConfig:
         return [conteudo_v1, conteudo_v2]
 
     def saveFilesContent(self, content1, content2):
-        file1 = open(self.path_v1, 'w')
-        file2 = open(self.path_v2, 'w')
+        file1 = open(self.path_v1, 'w', encoding='ISO-8859-1')
+        file2 = open(self.path_v2, 'w', encoding='ISO-8859-1')
         file1.write(content1)
         file2.write(content2)
         file1.close()
