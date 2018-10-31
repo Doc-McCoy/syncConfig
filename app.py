@@ -12,6 +12,7 @@ class App():
         Label(root, text="v1").grid(row=0, column=0)
         Label(root, text="v2").grid(row=0, column=1)
         # Textareas
+        # Aqui vai um loop que cria os texts conforme existam no config
         self.textArea1 = Text(root)
         self.textArea2 = Text(root)
         self.textArea1.grid(row=1, column=0)
@@ -24,7 +25,7 @@ class App():
         Button(frameBtn, text="Salvar", command=self.saveFile).pack(side=RIGHT)
         Button(frameBtn, text="Sincronizar", command=self.sync.syncFiles).pack(side=RIGHT)
 
-    def saveFile(self):
+    def saveFile(self): # Mudar aqui para pegar os conteudos dinamicamente em um loop
         content1 = self.textArea1.get("1.0", END)
         content2 = self.textArea2.get("1.0", END)
         self.sync.saveFilesContent(content1, content2)
