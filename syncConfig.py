@@ -4,8 +4,8 @@ from ftplib import FTP
 class SyncConfig:
 
     def __init__(self):
-        config = configparser.ConfigParser()
-        config.read('params.ini')
+        self.config = configparser.ConfigParser()
+        self.config.read('params.ini')
         self.user = config['conn']['user']
         self.passwd = config['conn']['passwd']
         self.paths_locais = config.options('path_local')
@@ -18,8 +18,9 @@ class SyncConfig:
         self.ftp.login(user=self.user, passwd=self.passwd)
 
     def readFilesBinary(self): # MUDAR ESSE
-        self.config_v1 = open(self.path_v1, 'rb')
-        self.config_v2 = open(self.path_v2, 'rb')
+        self.files = []
+        for path in self.paths_locais:
+            self.files.append(open(self.config[path]))
 
     def saveFilesOnServer(self):
         self.ftp.storbinary('STOR {}'.format(self.remote_v1), self.config_v1)
@@ -34,24 +35,20 @@ class SyncConfig:
         self.config_v2.close()
 
     def getFilesContent(self): # MUDAR ESSE
-        if os.path.isfile(self.path_v1):
-            v1 = open(self.path_v1, 'r', encoding='ISO-8859-1')
-            conteudo_v1 = v1.read()
-            v1.close()
-        else:
-            conteudo_v1 = 'Config v1 não encontrado.'
-        if os.path.isfile(self.path_v2):
-            v2 = open(self.path_v2, 'r', encoding='ISO-8859-1')
-            conteudo_v2 = v2.read()
-            v2.close()
-        else:
-            conteudo_v2 = "Config v2 não encontrado."
-        return [conteudo_v1, conteudo_v2]
+        self.files_content = []
+        for path in self.paths_locais:
+            if os.path.isfile(self.config[path]):
+                file = open(self.config[path], 'r', encoding='ISO-8859-1')
+                content = file.read()
+                self.files_content.append(content)
+                file.close()
+            else:
+                self.files_content.append("Arquivo definido em {} não encontrado".format(path))
 
-    def saveFilesContent(self, content1, content2): # MUDAR ESSE
-        file1 = open(self.path_v1, 'w', encoding='ISO-8859-1')
-        file2 = open(self.path_v2, 'w', encoding='ISO-8859-1')
-        file1.write(content1)
-        file2.write(content2)
-        file1.close()
-        file2.close()
+        return self.files_content
+
+    def saveFilesContent(self, contents): # MUDAR ESSE
+        for path in self.paths_locais:
+            file = open(self.config[path], 'w', encoding='ISO-8859-1')
+            file.write(contents[0]) # ARRUMAR ISSO
+            file.close()
