@@ -8,13 +8,12 @@ class SyncConfig:
         self.config.read('params.ini')
         self.user = self.config['conn']['user']
         self.passwd = self.config['conn']['passwd']
+        self.host = self.config['conn']['host']
         self.paths_locais = self.config.options('local')
         self.paths_remotos = self.config.options('remoto')
-        # path_v1
-        # path_v2
 
     def connectFTP(self):
-        self.ftp = FTP('svrdev001')
+        self.ftp = FTP(self.host)
         self.ftp.login(user=self.user, passwd=self.passwd)
 
     def readFilesBinary(self): # MUDAR ESSE
