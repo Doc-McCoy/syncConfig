@@ -8,31 +8,36 @@ class App():
         tk.title("INI Editor")
         root = Frame(tk)
         root.pack()
-        # Labels
-        # Label(root, text="v1").grid(row=0, column=0)
-        # Label(root, text="v2").grid(row=0, column=1)
+
         # Textareas
         filesContent = self.sync.getFilesContent()
-        self.textareas = []
+        self.text_areas = []
         frameTextArea = Frame(tk)
         frameTextArea.pack()
 
+        # Abrir cada conteudo em um text
         for file in filesContent:
             textArea = Text(frameTextArea)
             textArea.pack(side=LEFT)
             textArea.insert(INSERT, file)
-            self.textareas.append(file)
+            self.text_areas.append(textArea)
 
         # Botões
         frameBtn = Frame(tk)
         frameBtn.pack(fill='x')
         Button(frameBtn, text="Salvar", command=self.saveFile).pack(side=RIGHT)
-        Button(frameBtn, text="Sincronizar", command=self.sync.syncFiles).pack(side=RIGHT)
+        Button(frameBtn, text="Sincronizar", command=self.syncFiles).pack(side=RIGHT)
 
-    def saveFile(self): # Mudar aqui para pegar os conteudos dinamicamente em um loop
-        content1 = self.textArea1.get("1.0", END)
-        content2 = self.textArea2.get("1.0", END)
-        self.sync.saveFilesContent(content1, content2)
+    def saveFile(self):
+        contents = []
+        for text in self.text_areas:
+            content = text.get("1.0", END)
+            contents.append(content)
+        self.sync.saveFilesContent(contents)
+
+    def syncFiles(self):
+        self.saveFile()
+        self.sync.syncFiles()
 
 if __name__ == '__main__':
     tk = Tk()

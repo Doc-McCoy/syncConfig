@@ -21,7 +21,7 @@ class SyncConfig:
         for path in self.paths_locais:
             self.files.append(open(self.config['local'][path]))
 
-    def saveFilesOnServer(self):
+    def saveFilesOnServer(self): # FALTA MUDAR AQUI SO AGORA
         self.ftp.storbinary('STOR {}'.format(self.remote_v1), self.config_v1)
         self.ftp.storbinary('STOR {}'.format(self.remote_v2), self.config_v2)
 
@@ -47,11 +47,9 @@ class SyncConfig:
         return self.files_content
 
     def saveFilesContent(self, contents): # MUDAR ESSE
+        index = 0
         for path in self.paths_locais:
             file = open(self.config['local'][path], 'w', encoding='ISO-8859-1')
-            file.write(contents[0]) # ARRUMAR ISSO
+            file.write(contents[index])
             file.close()
-
-teste = SyncConfig()
-
-teste.getFilesContent()
+            index += 1
