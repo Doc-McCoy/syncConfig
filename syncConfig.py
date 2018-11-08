@@ -16,24 +16,29 @@ class SyncConfig:
         self.ftp = FTP(self.host)
         self.ftp.login(user=self.user, passwd=self.passwd)
 
-    def readFilesBinary(self): # MUDAR ESSE
+    def readFilesBinary(self):
         self.files = []
         for path in self.paths_locais:
             self.files.append(open(self.config['local'][path]))
 
-    def saveFilesOnServer(self): # FALTA MUDAR AQUI SO AGORA
-        self.ftp.storbinary('STOR {}'.format(self.remote_v1), self.config_v1)
-        self.ftp.storbinary('STOR {}'.format(self.remote_v2), self.config_v2)
+    def saveBinaryFilesOnServer(self):
+        index = 0
+        for path in self.paths_remotos:
+            self.ftp.storbinary("STOR {}".format(self.config['remoto'][path]), self.files[index])
+            index += 1
+
+    def closeBinaryFiles(self):
+        for file in self.files:
+            file.close()
 
     def syncFiles(self):
         self.connectFTP()
         self.readFilesBinary()
-        self.saveFilesOnServer()
+        self.saveBinaryFilesOnServer()
+        self.closeBinaryFiles()
         self.ftp.quit()
-        self.config_v1.close()
-        self.config_v2.close()
 
-    def getFilesContent(self): # MUDAR ESSE
+    def getFilesContent(self):
         self.files_content = []
         for path in self.paths_locais:
             if os.path.isfile(self.config['local'][path]):
@@ -46,7 +51,7 @@ class SyncConfig:
 
         return self.files_content
 
-    def saveFilesContent(self, contents): # MUDAR ESSE
+    def saveFilesContent(self, contents):
         index = 0
         for path in self.paths_locais:
             file = open(self.config['local'][path], 'w', encoding='ISO-8859-1')
