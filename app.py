@@ -13,12 +13,12 @@ class App():
         filesContent = self.sync.getFilesContent()
         self.text_areas = []
         frameTextArea = Frame(tk)
-        frameTextArea.pack()
+        frameTextArea.pack(fill='both', expand=True)
 
         # Abrir cada conteudo em um text
         for file in filesContent:
-            textArea = Text(frameTextArea)
-            textArea.pack(side=LEFT)
+            textArea = Text(frameTextArea, width='60')
+            textArea.pack(side='left', fill='both', expand=True)
             textArea.insert(INSERT, file)
             self.text_areas.append(textArea)
 

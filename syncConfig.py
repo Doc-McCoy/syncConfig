@@ -19,7 +19,7 @@ class SyncConfig:
     def readFilesBinary(self):
         self.files = []
         for path in self.paths_locais:
-            self.files.append(open(self.config['local'][path]))
+            self.files.append(open(self.config['local'][path], 'rb'))
 
     def saveBinaryFilesOnServer(self):
         index = 0
