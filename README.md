@@ -7,12 +7,13 @@ Para funcionar, necessita que um arquivo `params.ini` seja criado no diretório 
 [conn]
 user=user
 passwd=passwd
+host=host
 
-[path_local]
-v1_local=/local/path/to/config.ini
-v2_local=/local/path/to/config.ini
+[local]
+file1=/local/path/to/file1.txt
+file2=/local/path/to/file2.txt
 
-[path_remoto]
-v1_remoto=/remote/path/to/config.ini
-v2_remoto=/remote/path/to/config.ini
+[remoto]
+file1=/remote/path/to/file1.txt
+file2=/remote/path/to/file2.txt
 ```
