@@ -1,5 +1,5 @@
 # syncConfig
-Pequena app que permite editar e enviar 2 arquivos 'config.ini' simultaneamente para um servidor via ftp.
+Pequena app que permite editar e enviar 2 arquivos de texto simultaneamente, e ainda upá-los para um servidor via ftp se for necessário.
 
 Para funcionar, necessita que um arquivo `params.ini` seja criado no diretório raíz, com os seguintes parâmetros:
 
